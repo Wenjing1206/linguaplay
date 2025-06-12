@@ -1,26 +1,20 @@
-
-import axios from "axios";
-// client/src/App.jsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import Lobby from './pages/Lobby';
-import WordMatchGame from "./pages/WordMatchGame"; //
-import Result from "./pages/RankingPages";
-
-
-axios.defaults.withCredentials = true;
-
+import CreateRoom from './pages/CreateRoom';
+import Game from './pages/Game';
+import SentenceGame from './pages/SentenceGame';
+import Leaderboard from './pages/Leaderboard';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/lobby" element={<Lobby />} />
-        <Route path="/game/match" element={<WordMatchGame />} />
-       </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/lobby" element={<Lobby />} />
+      <Route path="/create-room" element={<CreateRoom />} />
+      <Route path="/leaderboard/:gameName" element={<Leaderboard />} />
+      <Route path="/game/:roomId/:gameName" element={<Game />} />
+      <Route path="/game/SentenceBuilderGame" element={<SentenceGame />} />
+    </Routes>
   );
 }

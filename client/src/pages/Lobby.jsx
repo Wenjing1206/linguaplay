@@ -1,31 +1,38 @@
-// 中文注释：Lobby 页面用于输入用户名和创建房间
-import React, { useState } from 'react';
+// src/pages/Lobby.jsx
+import React, { useEffect, useState } from 'react';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
+
+const games = [
+  'WordClearGame',
+  'SpellMatchGame',
+  'HanziMemoryGame',
+  'SentenceBuilderGame',
+];
 
 export default function Lobby() {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
-  const handleStart = () => {
-    if (username.trim()) {
-      localStorage.setItem('username', username); // 存一下用户名
-      navigate('/game'); // 跳转到游戏页面
-    }
-  };
+  useEffect(() => {
+    api.get('/auth/me')
+      .then(res => setUsername(res.data.username))
+      .catch(() => navigate('/'));
+  }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">🎮 Welcome to LinguaPlay</h1>
-      <input
-        type="text"
-        placeholder="Enter your username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="border p-2 rounded mb-4 w-64"
-      />
-      <button onClick={handleStart} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Start Game
-      </button>
+    <div className="p-6 flex flex-col items-center gap-4">
+      <h1 className="text-xl font-bold">Hi, {username} 👋</h1>
+      <p className="text-gray-600">请选择你要开始的游戏：</p>
+      {games.map((game) => (
+        <button
+          key={game}
+          className="bg-blue-600 text-white px-4 py-2 rounded w-64"
+          onClick={() => navigate(`/game/${game}`)}
+        >
+          {game}
+        </button>
+      ))}
     </div>
   );
 }

@@ -1,8 +1,8 @@
-// models/User.js
+// server/models/User.js
 import mongoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true }
-});
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true, trim: true },
+}, { timestamps: true });
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model('User', userSchema);
