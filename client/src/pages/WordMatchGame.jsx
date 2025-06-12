@@ -106,7 +106,7 @@ export default function WordMatchGame() {
         <div className="mb-6 text-xl text-purple-700 font-semibold bg-purple-100 px-4 py-3 rounded shadow flex flex-col items-center">
           🎉 You finished the game!
           <button
-            onClick={() => navigate("/game")}
+            onClick={() => navigate("/lobby")}
             className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition"
           >
             🏠 Back to GameHub

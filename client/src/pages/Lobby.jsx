@@ -4,9 +4,7 @@ import api from '../api';
 import { useNavigate } from 'react-router-dom';
 
 const games = [
-  'WordClearGame',
-  'SpellMatchGame',
-  'HanziMemoryGame',
+  'WordMatchGame',
   'SentenceBuilderGame',
 ];
 
@@ -23,7 +21,7 @@ export default function Lobby() {
   return (
     <div className="p-6 flex flex-col items-center gap-4">
       <h1 className="text-xl font-bold">Hi, {username} 👋</h1>
-      <p className="text-gray-600">请选择你要开始的游戏：</p>
+      <p className="text-gray-600">Please select the game you want to start      ：</p>
       {games.map((game) => (
         <button
           key={game}

@@ -6,7 +6,7 @@ import redis from '../redis.js';
 
 const router = express.Router();
 
-// 提交分数（不需要 roomId）
+// 提交分数接口 
 router.post('/submit', verifyToken, async (req, res) => {
   const { gameName, score, time } = req.body;
   const username = req.user.username;
@@ -25,7 +25,7 @@ router.post('/submit', verifyToken, async (req, res) => {
   res.json({ success: true, newScore });
 });
 
-// 获取排行榜（不分房间）
+// 获取排行榜接口 -（累加分数，保留最短时间）
 router.get('/:gameName', async (req, res) => {
   const { gameName } = req.params;
   const cacheKey = `leaderboard:${gameName}`;
@@ -35,23 +35,25 @@ router.get('/:gameName', async (req, res) => {
 
   const scores = await Score.find({ gameName }).lean();
 
-  const merged = {}; // 用户去重：只保留最高分，分数相同用最短时间
+  const merged = {}; // 按用户名累加总分，同时保留最短时间
   for (const entry of scores) {
     const { username, score, time } = entry;
-    if (
-      !merged[username] ||
-      score > merged[username].score ||
-      (score === merged[username].score && time < merged[username].time)
-    ) {
+    if (!merged[username]) {
       merged[username] = { username, score, time };
+    } else {
+      merged[username].score += score;
+      // 更新为更短的时间（注意是 Math.min）
+      merged[username].time = Math.min(merged[username].time, time);
     }
   }
 
+  // 排序：先按分数降序，再按时间升序
   const sorted = Object.values(merged).sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
     return a.time - b.time;
   });
 
+  // 缓存结果（60 秒）
   await redis.set(cacheKey, JSON.stringify(sorted), { EX: 60 });
   res.json(sorted);
 });

@@ -8,9 +8,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['vite.svg', 'favicon.ico', 'robots.txt'], // 确保这些文件存在
+      includeAssets: ['vite.svg', 'favicon.ico', 'robots.txt'], 
       manifest: {
-        name: 'LinguaPlay 词语游戏',
+        name: 'LinguaPlay',
         short_name: 'LinguaPlay',
         start_url: '/',
         display: 'standalone',

@@ -14,10 +14,10 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-4">欢迎来到 LinguaPlay!</h1>
+      <h1 className="text-2xl font-bold mb-4">Welcome LinguaPlay!</h1>
       <input
         className="border p-2 mb-2"
-        placeholder="请输入用户名"
+        placeholder="input username here"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
@@ -25,7 +25,7 @@ export default function Login() {
         className="bg-blue-500 text-white px-4 py-2 rounded"
         onClick={handleLogin}
       >
-        登录 / 注册
+        Login
       </button>
     </div>
   );
